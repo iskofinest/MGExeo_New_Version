@@ -44,6 +44,7 @@ public class PurchaseOrder {
     
     private Set<ItemOrder> itemOrders = new HashSet<>();
     private Set<MaterialPurchase> materialPurchases = new HashSet<>();
+    private Set<ReceivingReport> receivingReports = new HashSet<>();
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -197,5 +198,17 @@ public class PurchaseOrder {
         int number = Integer.parseInt(po.substring(po.indexOf("-") + 1));
         return number;
     }
+
+    @OneToMany(mappedBy = "purchaseOrder", cascade = CascadeType.ALL)
+    public Set<ReceivingReport> getReceivingReports() {
+        return receivingReports;
+    }
+
+    public void setReceivingReports(Set<ReceivingReport> receivingReports) {
+        this.receivingReports = receivingReports;
+    }
     
+    public void addReceivingReport(ReceivingReport receivingReport) {
+        this.receivingReports.add(receivingReport);
+    }
 }

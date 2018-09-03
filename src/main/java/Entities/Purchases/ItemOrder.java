@@ -2,6 +2,8 @@
 package Entities.Purchases;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -26,6 +29,7 @@ public class ItemOrder {
     private BigDecimal totalCost;
     
     private PurchaseOrder purchaseOrder;
+    private Set<ItemDelivery> itemDeliveries = new HashSet<>();
 
     public ItemOrder() {}
 
@@ -117,7 +121,17 @@ public class ItemOrder {
     public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
         this.purchaseOrder = purchaseOrder;
     }
+
+    @OneToMany(mappedBy = "itemOrder", cascade = CascadeType.ALL)
+    public Set<ItemDelivery> getItemDeliveries() {
+        return itemDeliveries;
+    }
+
+    public void setItemDeliveries(Set<ItemDelivery> itemDeliveries) {
+        this.itemDeliveries = itemDeliveries;
+    }
     
-    
-    
+    public void addItemDelivery(ItemDelivery itemDelivery) {
+        this.itemDeliveries.add(itemDelivery);
+    }
 }

@@ -85,17 +85,13 @@
             <version>SNAPSHOT</version>
         </dependency>
         
-        <dependency>
-            <groupId>net.sf.jasperreports</groupId>
-            <artifactId>jasperreports-fonts</artifactId>
-            <version>6.0.0</version>
-        </dependency>
-        
+        <!-- https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports -->
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports</artifactId>
-            <version>6.1.1</version>
+            <version>6.5.1</version>
         </dependency>
+
     
     </dependencies>
     
