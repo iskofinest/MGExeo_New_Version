@@ -165,7 +165,7 @@ public class Login extends javax.swing.JFrame {
         lblCreateAccount = new javax.swing.JLabel();
         txtPassword = new javax.swing.JPasswordField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("LOGIN");
         setBackground(new java.awt.Color(51, 153, 255));
         setLocation(new java.awt.Point(393, 247));

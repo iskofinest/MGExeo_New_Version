@@ -1,6 +1,7 @@
 
 package Entities.Purchases;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,6 +24,7 @@ public class ReceivingReport {
     
     private int id;
     private String rrNo;
+    BigDecimal totalAmount;
     private Date deliverDate;
     private String receivingWarehouse;
     private String preparedBy;
@@ -50,6 +52,14 @@ public class ReceivingReport {
 
     public void setRrNo(String rrNo) {
         this.rrNo = rrNo;
+    }
+
+    public BigDecimal getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(BigDecimal totalAmount) {
+        this.totalAmount = totalAmount;
     }
 
     @Temporal(TemporalType.DATE)

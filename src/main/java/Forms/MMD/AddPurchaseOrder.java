@@ -120,6 +120,7 @@ public class AddPurchaseOrder extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
         lblTotalAmount = new javax.swing.JLabel();
+        btnBack = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         btnSave = new javax.swing.JMenuItem();
@@ -131,7 +132,6 @@ public class AddPurchaseOrder extends javax.swing.JFrame {
         setTitle("ADD PURCHASE ORDER");
         setBounds(new java.awt.Rectangle(0, 0, 1936, 1038));
         setExtendedState(6);
-        setMaximumSize(new java.awt.Dimension(1936, 1038));
         setMinimumSize(new java.awt.Dimension(1936, 1038));
         setSize(new java.awt.Dimension(1936, 1038));
 
@@ -555,6 +555,14 @@ public class AddPurchaseOrder extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
+        btnBack.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
+        btnBack.setText("BACK");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -588,7 +596,11 @@ public class AddPurchaseOrder extends javax.swing.JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(10, 10, 10)
+                                        .addComponent(btnBack, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1184, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -613,7 +625,10 @@ public class AddPurchaseOrder extends javax.swing.JFrame {
                     .addComponent(jdcDate, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnBack))
                     .addComponent(jScrollPane2)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -788,6 +803,7 @@ public class AddPurchaseOrder extends javax.swing.JFrame {
                 purchaseOrder.setTotalAmount(totalAmount);
                 purchaseOrder.setSupplier(suppliers.get(cbxSupplierCode.getSelectedIndex()));
                 purchaseOrder.setProject(projects.get(cbxProjectCode.getSelectedIndex()));
+                purchaseOrder.setCompleted(false);
                 if(PurchaseOrderService.save(purchaseOrder)) {
                     JOptionPane.showMessageDialog(null, "SAVE SUCCESSFULL");
                 }
@@ -852,6 +868,14 @@ public class AddPurchaseOrder extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnPrintActionPerformed
 
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        // TODO add your handling code here:
+        SwingUtilities.invokeLater(() -> {
+            dispose();
+            frame.setVisible(true);
+        });
+    }//GEN-LAST:event_btnBackActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -892,6 +916,7 @@ public class AddPurchaseOrder extends javax.swing.JFrame {
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnAddProject;
     private javax.swing.JButton btnAddSupplier;
+    private javax.swing.JButton btnBack;
     private javax.swing.JMenuItem btnLogout;
     private javax.swing.JMenuItem btnPrint;
     private javax.swing.JMenuItem btnSave;

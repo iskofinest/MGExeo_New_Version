@@ -28,6 +28,7 @@ public class Supplier {
     private String faxNo;
     
     private Set<PurchaseOrder> purchaseOrders = new HashSet<>();
+    private Set<ItemStock> itemStocks = new HashSet<>();
     
     public Supplier() {
     }
@@ -135,5 +136,17 @@ public class Supplier {
     public void addPurchseOrder(PurchaseOrder purchaseOrder) {
         this.purchaseOrders.add(purchaseOrder);
     }
+
+    @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL)
+    public Set<ItemStock> getItemStocks() {
+        return itemStocks;
+    }
+
+    public void setItemStocks(Set<ItemStock> itemStocks) {
+        this.itemStocks = itemStocks;
+    }
     
+    public void addItemStock(ItemStock itemStock) {
+        this.itemStocks.add(itemStock);
+    }
 }

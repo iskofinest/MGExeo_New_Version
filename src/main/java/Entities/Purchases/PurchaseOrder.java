@@ -33,6 +33,7 @@ public class PurchaseOrder {
     private String deliveryPlace;
     private String termOfPayment;
     private BigDecimal totalAmount;
+    private boolean completed;
     
     private Supplier supplier;
     private Project project;
@@ -97,6 +98,14 @@ public class PurchaseOrder {
 
     public void setTermOfPayment(String termOfPayment) {
         this.termOfPayment = termOfPayment;
+    }
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
 
     @ManyToOne(cascade = CascadeType.ALL)

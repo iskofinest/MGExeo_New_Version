@@ -18,7 +18,10 @@
     </Component>
   </NonVisualComponents>
   <Properties>
-    <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="defaultCloseOperation" type="int" value="2"/>
+    <Property name="bounds" type="java.awt.Rectangle" editor="org.netbeans.beaninfo.editors.RectangleEditor">
+      <Rectangle value="[582, 334, 0, 0]"/>
+    </Property>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -69,8 +72,8 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Group type="102" alignment="1" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
                           <Component id="jButton5" min="-2" pref="217" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -80,24 +83,21 @@
                                   <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="102" alignment="1" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
                           <Component id="btnViewItems" min="-2" pref="195" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="btnAddReturnReport" min="-2" pref="195" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="btnViewSummaryReports" min="-2" pref="195" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="btnViewNotifications" min="-2" pref="194" max="-2" attributes="0"/>
+                          <Component id="btnViewReceiving" min="-2" pref="194" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="btnAddWithdrawalReport" min="-2" pref="195" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="btnAddReceivingReport" min="-2" pref="195" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="24" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="32767" attributes="0"/>
@@ -126,7 +126,7 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="btnAddWithdrawalReport" alignment="3" min="-2" pref="43" max="-2" attributes="0"/>
                               <Component id="btnAddReceivingReport" alignment="3" min="-2" pref="43" max="-2" attributes="0"/>
-                              <Component id="btnViewNotifications" alignment="3" min="-2" pref="44" max="-2" attributes="0"/>
+                              <Component id="btnViewReceiving" alignment="3" min="-2" pref="44" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -138,7 +138,6 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnViewItems" alignment="3" min="-2" pref="43" max="-2" attributes="0"/>
                       <Component id="btnAddReturnReport" alignment="3" min="-2" pref="43" max="-2" attributes="0"/>
-                      <Component id="btnViewSummaryReports" alignment="3" min="-2" pref="43" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="28" max="32767" attributes="0"/>
               </Group>
@@ -172,7 +171,7 @@
             <Property name="text" type="java.lang.String" value="Sta. Ana Drive, Sun Valley, Paranaque City, Philipppines"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="btnViewNotifications">
+        <Component class="javax.swing.JButton" name="btnViewReceiving">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="cc" green="cc" red="cc" type="rgb"/>
@@ -180,8 +179,12 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Times New Roman" size="12" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="VIEW NOTIFICATIONS"/>
+            <Property name="text" type="java.lang.String" value="VIEW RECEIVING REPORT"/>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnViewReceivingActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnAddWithdrawalReport">
           <Properties>
@@ -216,7 +219,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Times New Roman" size="12" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="VIEW ITEMS"/>
+            <Property name="text" type="java.lang.String" value="VIEW WITHDRAWAL"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btnAddReturnReport">
@@ -227,19 +230,11 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Times New Roman" size="12" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="ADD RETURN REPORT"/>
+            <Property name="text" type="java.lang.String" value="VIEW STOCKS"/>
           </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="btnViewSummaryReports">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="cc" green="cc" red="cc" type="rgb"/>
-            </Property>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Times New Roman" size="12" style="1"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="VIEW SUMMARY REPORTS"/>
-          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddReturnReportActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>

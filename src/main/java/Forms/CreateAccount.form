@@ -543,7 +543,7 @@
               <Color blue="0" green="cc" red="0" type="rgb"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="M  G    E  X  E  O"/>
+            <Property name="text" type="java.lang.String" value="I  N  T  E  G  R  A  T  E  D"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel4">

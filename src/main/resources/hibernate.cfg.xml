@@ -64,6 +64,7 @@ Contributor(s):
     <mapping class="Entities.Department"/>
     <mapping class="Entities.Material"/>
     <mapping class="Entities.Supplier"/>
+    <mapping class="Entities.ItemStock"/>
     <mapping class="Entities.Purchases.PurchaseOrder"/>
     <mapping class="Entities.Purchases.MaterialPurchase"/>
     <mapping class="Entities.Purchases.ItemOrder"/>

@@ -1,5 +1,6 @@
 package Forms.WarehouseAdmin;
 
+import Forms.ShowItemStock;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
@@ -25,12 +26,11 @@ public class Warehouse_Account extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        btnViewNotifications = new javax.swing.JButton();
+        btnViewReceiving = new javax.swing.JButton();
         btnAddWithdrawalReport = new javax.swing.JButton();
         btnAddReceivingReport = new javax.swing.JButton();
         btnViewItems = new javax.swing.JButton();
         btnAddReturnReport = new javax.swing.JButton();
-        btnViewSummaryReports = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
 
         jButton1.setBackground(new java.awt.Color(0, 0, 0));
@@ -38,7 +38,8 @@ public class Warehouse_Account extends javax.swing.JFrame {
         jButton1.setForeground(new java.awt.Color(255, 0, 51));
         jButton1.setText("VIEW NOTIFICATIONS");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setBounds(new java.awt.Rectangle(582, 334, 0, 0));
 
         jPanel1.setBackground(new java.awt.Color(153, 204, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createMatteBorder(5, 5, 5, 5, new java.awt.Color(0, 0, 0)));
@@ -52,9 +53,15 @@ public class Warehouse_Account extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         jLabel5.setText("Sta. Ana Drive, Sun Valley, Paranaque City, Philipppines");
 
-        btnViewNotifications.setBackground(new java.awt.Color(204, 204, 204));
-        btnViewNotifications.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        btnViewNotifications.setText("VIEW NOTIFICATIONS");
+        btnViewReceiving.setBackground(new java.awt.Color(204, 204, 204));
+        btnViewReceiving.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        btnViewReceiving.setText("VIEW RECEIVING REPORT");
+        btnViewReceiving.setToolTipText("");
+        btnViewReceiving.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewReceivingActionPerformed(evt);
+            }
+        });
 
         btnAddWithdrawalReport.setBackground(new java.awt.Color(204, 204, 204));
         btnAddWithdrawalReport.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
@@ -71,15 +78,16 @@ public class Warehouse_Account extends javax.swing.JFrame {
 
         btnViewItems.setBackground(new java.awt.Color(204, 204, 204));
         btnViewItems.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        btnViewItems.setText("VIEW ITEMS");
+        btnViewItems.setText("VIEW WITHDRAWAL");
 
         btnAddReturnReport.setBackground(new java.awt.Color(204, 204, 204));
         btnAddReturnReport.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        btnAddReturnReport.setText("ADD RETURN REPORT");
-
-        btnViewSummaryReports.setBackground(new java.awt.Color(204, 204, 204));
-        btnViewSummaryReports.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        btnViewSummaryReports.setText("VIEW SUMMARY REPORTS");
+        btnAddReturnReport.setText("VIEW STOCKS");
+        btnAddReturnReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddReturnReportActionPerformed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         jLabel3.setText("Log-out");
@@ -90,7 +98,7 @@ public class Warehouse_Account extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -98,21 +106,18 @@ public class Warehouse_Account extends javax.swing.JFrame {
                             .addComponent(jLabel4)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(30, 30, 30)
-                                .addComponent(jLabel5)))
-                        .addGap(57, 57, 57))
+                                .addComponent(jLabel5))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnViewItems, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnAddReturnReport, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnViewSummaryReports, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnViewNotifications, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnAddReturnReport, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnViewReceiving, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnAddWithdrawalReport, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnAddReceivingReport, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
@@ -137,15 +142,14 @@ public class Warehouse_Account extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnAddWithdrawalReport, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnAddReceivingReport, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnViewNotifications, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnViewReceiving, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(91, 91, 91)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnViewItems, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAddReturnReport, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnViewSummaryReports, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAddReturnReport, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(28, Short.MAX_VALUE))
         );
 
@@ -170,10 +174,21 @@ public class Warehouse_Account extends javax.swing.JFrame {
         SwingUtilities.invokeLater(() -> {
             dispose();
 //            frame = new AddReceivingReport(this);
-            frame = new AddReceiving();
+            frame = new AddReceiving(this);
             frame.setVisible(true);
         });
     }//GEN-LAST:event_btnAddReceivingReportActionPerformed
+
+    private void btnAddReturnReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddReturnReportActionPerformed
+        SwingUtilities.invokeLater(() -> {
+            dispose();
+            new ShowItemStock(this).setVisible(true);
+        });
+    }//GEN-LAST:event_btnAddReturnReportActionPerformed
+
+    private void btnViewReceivingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewReceivingActionPerformed
+        
+    }//GEN-LAST:event_btnViewReceivingActionPerformed
 
     /**
      * @param args the command line arguments
@@ -215,8 +230,7 @@ public class Warehouse_Account extends javax.swing.JFrame {
     private javax.swing.JButton btnAddReturnReport;
     private javax.swing.JButton btnAddWithdrawalReport;
     private javax.swing.JButton btnViewItems;
-    private javax.swing.JButton btnViewNotifications;
-    private javax.swing.JButton btnViewSummaryReports;
+    private javax.swing.JButton btnViewReceiving;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;

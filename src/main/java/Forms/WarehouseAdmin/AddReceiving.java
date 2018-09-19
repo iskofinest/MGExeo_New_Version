@@ -2,16 +2,24 @@
 package Forms.WarehouseAdmin;
 
 import ConstantHandlers.ConstantHandler;
+import ConstantHandlers.CustomTableModel;
+import Entities.ItemStock;
 import Entities.Purchases.ItemDelivery;
 import Entities.Purchases.ItemOrder;
 import Entities.Purchases.PurchaseOrder;
 import Entities.Purchases.ReceivingReport;
 import Forms.Login;
 import Services.ItemDeliveryService;
+import Services.ItemStockService;
 import Services.PurchaseOrderService;
 import Services.ReceivingReportService;
+import java.awt.Frame;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.Vector;
@@ -19,21 +27,29 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 public class AddReceiving extends javax.swing.JFrame {
 
+    Frame frame;
     List<PurchaseOrder> purchaseOrders;
-    List<ItemOrder> itemOrders = new ArrayList();
-    Vector<String> columns = new Vector();
-    Vector<String> deliveryColumn = new Vector<>();
+    List<ItemOrder> itemOrders;
+    Vector<String> columns;
+    Vector<String> deliveryColumn;
     Vector<Vector> deliveries;
+    BigDecimal deliveryTotalAmount = new BigDecimal(0);
     
-    /**
-     * Creates new form AddReceiving
-     */
     public AddReceiving() {
         initComponents();
+        initializeData();
+    }
+    
+    public AddReceiving(Frame frame) {
+        initComponents();
+        this.frame = frame;
         initializeData();
     }
 
@@ -70,6 +86,8 @@ public class AddReceiving extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         lblDepartment = new javax.swing.JLabel();
+        txtPOTotalAmount = new javax.swing.JTextField();
+        jLabel19 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         txtReceivingWarehouse = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
@@ -78,6 +96,8 @@ public class AddReceiving extends javax.swing.JFrame {
         tblDeliveries = new javax.swing.JTable();
         jLabel10 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        txtDeliveryTotalAmount = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
         jdcDate = new com.toedter.calendar.JDateChooser();
         jLabel11 = new javax.swing.JLabel();
@@ -88,6 +108,7 @@ public class AddReceiving extends javax.swing.JFrame {
         txtPreparedBy = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         btnSave = new javax.swing.JButton();
+        btnBack = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         btnLogout = new javax.swing.JMenuItem();
@@ -96,9 +117,7 @@ public class AddReceiving extends javax.swing.JFrame {
         setBounds(new java.awt.Rectangle(0, 0, 1936, 1038));
         setExtendedState(6);
         setLocation(new java.awt.Point(0, 0));
-        setMaximumSize(new java.awt.Dimension(1936, 1038));
         setMinimumSize(new java.awt.Dimension(1936, 1038));
-        setPreferredSize(new java.awt.Dimension(1936, 1038));
         setSize(new java.awt.Dimension(1936, 1038));
 
         jPanel1.setBackground(new java.awt.Color(102, 153, 255));
@@ -284,10 +303,22 @@ public class AddReceiving extends javax.swing.JFrame {
 
         lblDepartment.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
 
+        txtPOTotalAmount.setEditable(false);
+        txtPOTotalAmount.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        txtPOTotalAmount.setText("0.00");
+
+        jLabel19.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel19.setText("Total Amount:  ");
+        jLabel19.setMaximumSize(new java.awt.Dimension(124, 17));
+        jLabel19.setMinimumSize(new java.awt.Dimension(124, 17));
+        jLabel19.setPreferredSize(new java.awt.Dimension(124, 17));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -297,9 +328,13 @@ public class AddReceiving extends javax.swing.JFrame {
                         .addGap(70, 70, 70)
                         .addComponent(jLabel16)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblDepartment, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(lblDepartment, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtPOTotalAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -314,7 +349,11 @@ public class AddReceiving extends javax.swing.JFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(1, 1, 1)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(75, 75, 75))
+                .addGap(39, 39, 39)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtPOTotalAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         jPanel4.setBackground(new java.awt.Color(102, 153, 255));
@@ -350,22 +389,38 @@ public class AddReceiving extends javax.swing.JFrame {
         jLabel15.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel15.setText("RR No.  ");
 
+        jLabel17.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel17.setText("Total Amount:  ");
+        jLabel17.setMaximumSize(new java.awt.Dimension(124, 17));
+        jLabel17.setMinimumSize(new java.awt.Dimension(124, 17));
+        jLabel17.setPreferredSize(new java.awt.Dimension(124, 17));
+
+        txtDeliveryTotalAmount.setEditable(false);
+        txtDeliveryTotalAmount.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        txtDeliveryTotalAmount.setText("0.00");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtDeliveryTotalAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(jLabel15)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtRRNo))
                             .addComponent(jLabel10))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 163, Short.MAX_VALUE)
                         .addComponent(jLabel18)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtReceivingWarehouse, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -385,7 +440,11 @@ public class AddReceiving extends javax.swing.JFrame {
                     .addComponent(txtReceivingWarehouse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(74, 74, 74))
+                .addGap(38, 38, 38)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtDeliveryTotalAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         jPanel5.setBackground(new java.awt.Color(102, 153, 255));
@@ -471,12 +530,21 @@ public class AddReceiving extends javax.swing.JFrame {
             }
         });
 
+        btnBack.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        btnBack.setText("BACK");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
                 .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(9, 9, 9))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -485,6 +553,8 @@ public class AddReceiving extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(821, 821, 821)
                 .addComponent(btnSave)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnBack)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -495,11 +565,13 @@ public class AddReceiving extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 125, Short.MAX_VALUE)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
-                .addComponent(btnSave)
-                .addGap(71, 71, 71))
+                .addGap(30, 30, 30)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSave)
+                    .addComponent(btnBack))
+                .addContainerGap())
         );
 
         jMenu1.setText("File");
@@ -520,10 +592,7 @@ public class AddReceiving extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -541,6 +610,7 @@ public class AddReceiving extends javax.swing.JFrame {
         if(cbxPoNo.getSelectedIndex() >= 0) {
             Vector<Vector> particulars = new Vector<>();
             deliveries = new Vector<>();
+            itemOrders = new Vector<>();
             SwingUtilities.invokeLater(() -> {
                 PurchaseOrder purchaseOrder = purchaseOrders.get(cbxPoNo.getSelectedIndex());
                 lblPoDate.setText(purchaseOrder.getPoDate().toString());
@@ -565,16 +635,53 @@ public class AddReceiving extends javax.swing.JFrame {
                     deliveryRow.addElement(itemOrder.getDescription());
                     deliveryRow.addElement("0");
                     deliveryRow.addElement(itemOrder.getUnit());
+                    deliveryRow.addElement(itemOrder.getCurrency());
+                    deliveryRow.addElement(itemOrder.getUnitPrice().toString());
+                    deliveryRow.addElement(itemOrder.getTotalCost().toString());
                     particulars.add(itemOrderRow);
                     deliveries.add(deliveryRow);
                     itemOrders.add(itemOrder);
                 });
                 DefaultTableModel itemOrderModel = new DefaultTableModel(particulars, columns);
-                DefaultTableModel deliveriesModel = new DefaultTableModel(deliveries, deliveryColumn);
+                CustomTableModel deliveriesModel = new CustomTableModel(deliveries, deliveryColumn);
+                deliveriesModel.addTableModelListener(new TableModelListener() {
+                    
+                    @Override
+                    public void tableChanged(TableModelEvent e) {
+                        int row = e.getFirstRow();
+                        int column = e.getColumn();
+                        if(column == 2) {
+                            try {
+                                int qty = Integer.parseInt(deliveriesModel.getValueAt(row, 2).toString());
+                                BigDecimal quantity = new BigDecimal(qty); 
+                                BigDecimal unitPrice = new BigDecimal(Double.parseDouble(deliveriesModel.getValueAt(row, 5).toString()));
+                                deliveryTotalAmount = deliveryTotalAmount.subtract(BigDecimal.valueOf(Double.parseDouble(deliveriesModel.getValueAt(row, 6).toString())));
+                                BigDecimal sum = quantity.multiply(unitPrice);
+                                deliveriesModel.setValueAt(sum.toString(), row, 6);
+                                deliveryTotalAmount = deliveryTotalAmount.add(sum);
+                                txtDeliveryTotalAmount.setText(deliveryTotalAmount.toString());
+                            } catch(NumberFormatException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                    }
+                    
+                });
+                
+                for(int i=0; i<deliveries.size(); i++) {
+                    deliveriesModel.setCellEditable(i, 2, true);
+                }
                 
                 tblItemOrders.setModel(itemOrderModel);
                 tblDeliveries.setModel(deliveriesModel);
                 
+                try {
+                    txtPOTotalAmount.setText(purchaseOrder.getTotalAmount().toString());
+                } catch(Exception e) {
+                    e.printStackTrace();
+                }
+                deliveryTotalAmount = new BigDecimal(0);
+                txtDeliveryTotalAmount.setText("0.00");
             });
             
         }
@@ -589,38 +696,74 @@ public class AddReceiving extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLogoutActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to save?", "CONFIRM TO SAVE", JOptionPane.OK_CANCEL_OPTION, 3);
-        if(confirm == 0) {
-            SwingUtilities.invokeLater(() -> {
-                ReceivingReport receivingReport = new ReceivingReport();
-                receivingReport.setRrNo(txtRRNo.getText().trim());
-                receivingReport.setDeliverDate(jdcDate.getDate());
-                receivingReport.setReceivingWarehouse(txtReceivingWarehouse.getText().trim());
-                receivingReport.setPreparedBy(txtPreparedBy.getText().trim());
-                receivingReport.setCheckedBy(txtCheckedBy.getText().trim());
-                receivingReport.setApprovedBy(txtApprovedBy.getText().trim());
-                receivingReport.setPurchaseOrder(purchaseOrders.get(cbxPoNo.getSelectedIndex()));
-                if(ReceivingReportService.save(receivingReport)) {
-                    System.err.println("RECEIVING REPORT SUCCESSFULLY SAVED!!");
-                    for(int i=0; i<itemOrders.size(); i++) {
-                        System.err.println("ITEM ORDERS PANGILAN!!" + i);
-                        int quantity = Integer.parseInt(((DefaultTableModel)tblDeliveries.getModel()).getValueAt(i, 2).toString().trim());
-                        if(quantity > 0) {
-                            ItemOrder itemOrder = itemOrders.get(i);
-                            ItemDelivery itemDelivery = new ItemDelivery();
-                            itemDelivery.setItemOrder(itemOrder);
-                            itemDelivery.setQuantity(quantity);
-                            itemDelivery.setReceivingReport(receivingReport);
-                            if(ItemDeliveryService.save(itemDelivery)) {
-                                System.err.println("ITEM DELIVERY SUCCESSFULLY SAVED!!");
+        if(deliveryTotalAmount.equals(new BigDecimal(0))) {
+            JOptionPane.showMessageDialog(null, "No Delivery Input Found!!", "EMPTY DELIVERY", JOptionPane.ERROR_MESSAGE);
+        } else {
+            int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to save?", "CONFIRM TO SAVE", JOptionPane.OK_CANCEL_OPTION, 3);
+            if(confirm == 0) {
+                SwingUtilities.invokeLater(() -> {
+                    PurchaseOrder purchaseOrder = purchaseOrders.get(cbxPoNo.getSelectedIndex());
+                    ReceivingReport receivingReport = new ReceivingReport();
+                    receivingReport.setRrNo(txtRRNo.getText().trim());
+                    receivingReport.setDeliverDate(jdcDate.getDate());
+                    receivingReport.setReceivingWarehouse(txtReceivingWarehouse.getText().trim());
+                    receivingReport.setPreparedBy(txtPreparedBy.getText().trim());
+                    receivingReport.setCheckedBy(txtCheckedBy.getText().trim());
+                    receivingReport.setApprovedBy(txtApprovedBy.getText().trim());
+                    receivingReport.setPurchaseOrder(purchaseOrder);
+                    receivingReport.setTotalAmount(deliveryTotalAmount);
+                    if(ReceivingReportService.save(receivingReport)) {
+                        System.err.println("RECEIVING REPORT SUCCESSFULLY SAVED!!");
+                        for(int i=0; i<itemOrders.size(); i++) {
+                            System.err.println("ITEM ORDERS PANGILAN!!" + i);
+                            try {
+                                int quantity = Integer.parseInt(((DefaultTableModel)tblDeliveries.getModel()).getValueAt(i, 2).toString().trim());
+                                if(quantity > 0) {
+                                    ItemOrder itemOrder = itemOrders.get(i);
+                                    ItemDelivery itemDelivery = new ItemDelivery();
+                                    itemDelivery.setItemOrder(itemOrder);
+                                    itemDelivery.setQuantity(quantity);
+                                    itemDelivery.setReceivingReport(receivingReport);
+                                    if(ItemDeliveryService.save(itemDelivery)) {
+                                        System.err.println("ITEM DELIVERY SUCCESSFULLY SAVED!!");
+                                        ItemStock itemStock = new ItemStock();
+                                        itemStock.setItemCode(itemOrder.getItemCode());
+                                        itemStock.setDescription(itemOrder.getDescription());
+                                        itemStock.setQuantity(quantity);
+                                        itemStock.setUnit(itemOrder.getUnit());
+                                        itemStock.setUnitPrice(itemOrder.getUnitPrice());
+                                        itemStock.setCurrency(itemOrder.getCurrency());
+                                        itemStock.setSupplier(purchaseOrder.getSupplier());
+                                        if(ItemStockService.save(itemStock)) {
+                                            System.err.println("ITEM STOCK SUCCESSFULLY SAVED");
+                                        }
+                                    }
+                                }
+                            } catch(Exception ex) {
+                                ex.printStackTrace();
                             }
                         }
                     }
-                }
-
-            });
+                    if(PurchaseOrderService.isCompleted(purchaseOrder)) {
+                        purchaseOrder.setCompleted(true);
+                        if(PurchaseOrderService.update(purchaseOrder)) System.out.println("PURCHASE ORDER UPDATED STATUS COMPLETE WITH ID " + purchaseOrder.getId());
+                        JOptionPane.showMessageDialog(null, "Receiving Report Successfully saved with no pending item", "COMPLETE DELIVERY", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Receiving Report Successfully saved with pending items", "PARTIAL DELIVERY", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    clearFields();
+                });
+            }
         }
     }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        // TODO add your handling code here:
+        SwingUtilities.invokeLater(() -> {
+            dispose();
+            frame.setVisible(true);
+        });
+    }//GEN-LAST:event_btnBackActionPerformed
 
     /**
      * @param args the command line arguments
@@ -658,6 +801,7 @@ public class AddReceiving extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBack;
     private javax.swing.JMenuItem btnLogout;
     private javax.swing.JButton btnSave;
     private javax.swing.JComboBox<String> cbxPoNo;
@@ -669,7 +813,9 @@ public class AddReceiving extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -700,16 +846,23 @@ public class AddReceiving extends javax.swing.JFrame {
     private javax.swing.JTable tblItemOrders;
     private javax.swing.JTextField txtApprovedBy;
     private javax.swing.JTextField txtCheckedBy;
+    private javax.swing.JTextField txtDeliveryTotalAmount;
+    private javax.swing.JTextField txtPOTotalAmount;
     private javax.swing.JTextField txtPreparedBy;
     private javax.swing.JTextField txtRRNo;
     private javax.swing.JTextField txtReceivingWarehouse;
     // End of variables declaration//GEN-END:variables
 
     private void initializeData() {
+        deliveryColumn = new Vector<>();
         deliveryColumn.add("Item Code");
         deliveryColumn.add("Description");
         deliveryColumn.add("Qty");
         deliveryColumn.add("Unit");
+        deliveryColumn.add("Currency");
+        deliveryColumn.add("Unit Price");
+        deliveryColumn.add("Total Cost");
+        columns = new Vector<>();
         columns.add("Item Code");
         columns.add("Description");
         columns.add("Qty");
@@ -717,17 +870,79 @@ public class AddReceiving extends javax.swing.JFrame {
         columns.add("Currency");
         columns.add("Unit Price");
         columns.add("Total Cost");
-        purchaseOrders = PurchaseOrderService.findAll();
+        purchaseOrders = PurchaseOrderService.findByCompleted(false);
         System.out.println("PURCHASE ORDER SIZE: " + purchaseOrders.size());
         DefaultComboBoxModel poNoModel = new DefaultComboBoxModel();
         purchaseOrders.forEach(purchaseOrder -> {
             poNoModel.addElement(purchaseOrder.getPoNo());
         });
         SwingUtilities.invokeLater(() -> {
+            AutoCompleteDecorator.decorate(cbxPoNo);
             cbxPoNo.setModel(poNoModel);
             cbxPoNo.setSelectedIndex(-1);
             tblItemOrders.setDefaultEditor(Object.class, null);
+//            tblDeliveries.setDefaultEditor(Object.class, null);
 //            tblItemOrders.setDefaultEditor(Object.class, null);
         });
     }
+    
+    private void clearFields() {
+        tblDeliveries.setModel(new DefaultTableModel(new Vector<>(), columns));
+        tblItemOrders.setModel(new DefaultTableModel(new Vector<>(), columns));
+        txtRRNo.setText("");
+        txtReceivingWarehouse.setText("");
+        txtDeliveryTotalAmount.setText("0.00");
+        txtPOTotalAmount.setText("0.00");
+        jdcDate.setDate(new Date());
+        txtCheckedBy.setText("");
+        txtApprovedBy.setText("");
+        txtPreparedBy.setText("");
+        initializeData();
+    }
+    
+    class CustomTableModelListener implements TableModelListener, KeyListener{
+
+        @Override
+        public void tableChanged(TableModelEvent e) {
+            SwingUtilities.invokeLater(() -> {
+                int row = e.getFirstRow();
+                int column = e.getColumn();
+                if(column == 2) {
+                    try {
+                        int qty = Integer.parseInt(tblDeliveries.getValueAt(row, 2).toString());
+                        BigDecimal quantity = new BigDecimal(qty); 
+                        BigDecimal unitPrice = new BigDecimal(Double.parseDouble(tblDeliveries.getValueAt(row, 5).toString()));
+                        deliveryTotalAmount.subtract(BigDecimal.valueOf(Double.parseDouble(tblDeliveries.getValueAt(row, 6).toString())));
+                        BigDecimal sum = quantity.multiply(unitPrice);
+                        tblDeliveries.setValueAt(sum.toString(), row, 6);
+                        System.err.println("DELIVERY TOTAL AMOUNT BEFORE SUM: " + deliveryTotalAmount.toString());
+                        deliveryTotalAmount = deliveryTotalAmount.add(sum);
+                        System.out.println("SUM: " + sum.toString());
+                        txtDeliveryTotalAmount.setText(deliveryTotalAmount.toString());
+                        System.err.println("DELIVERY TOTAL AMOUNT: " + deliveryTotalAmount.toString());
+                    } catch(NumberFormatException ex) {
+                        ex.printStackTrace();
+                        System.err.println("ERRORED");
+                    }
+                }
+            });
+        }
+
+        @Override
+        public void keyTyped(KeyEvent e) {
+            System.out.println("isko almighty");
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            System.out.println("keypressed");
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+            System.out.println("keyreleased");
+        }
+        
+    }
+    
 }
