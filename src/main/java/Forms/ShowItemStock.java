@@ -49,7 +49,6 @@ public class ShowItemStock extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBounds(new java.awt.Rectangle(0, 0, 1936, 1038));
         setExtendedState(6);
-        setPreferredSize(new java.awt.Dimension(1936, 1038));
 
         jPanel1.setBackground(new java.awt.Color(102, 153, 255));
 
@@ -207,7 +206,6 @@ public class ShowItemStock extends javax.swing.JFrame {
         columns.add("Total Amount");
         columns.add("Supplier");
         itemStocks = ItemStockService.findAll();
-        columnModel = tblStocks.getColumnModel();
         
         for(int i=0; i<itemStocks.size(); i++) {
             ItemStock itemStock = itemStocks.get(i);

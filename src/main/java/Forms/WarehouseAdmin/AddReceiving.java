@@ -871,7 +871,6 @@ public class AddReceiving extends javax.swing.JFrame {
         columns.add("Unit Price");
         columns.add("Total Cost");
         purchaseOrders = PurchaseOrderService.findByCompleted(false);
-        System.out.println("PURCHASE ORDER SIZE: " + purchaseOrders.size());
         DefaultComboBoxModel poNoModel = new DefaultComboBoxModel();
         purchaseOrders.forEach(purchaseOrder -> {
             poNoModel.addElement(purchaseOrder.getPoNo());
