@@ -1,7 +1,10 @@
 package Forms.WarehouseAdmin;
 
+import Forms.Login;
 import Forms.ShowItemStock;
+import java.awt.Font;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 public class Warehouse_Account extends javax.swing.JFrame {
@@ -31,7 +34,7 @@ public class Warehouse_Account extends javax.swing.JFrame {
         btnAddReceivingReport = new javax.swing.JButton();
         btnViewItems = new javax.swing.JButton();
         btnAddReturnReport = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
+        lblLogOut = new javax.swing.JLabel();
 
         jButton1.setBackground(new java.awt.Color(0, 0, 0));
         jButton1.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
@@ -66,6 +69,11 @@ public class Warehouse_Account extends javax.swing.JFrame {
         btnAddWithdrawalReport.setBackground(new java.awt.Color(204, 204, 204));
         btnAddWithdrawalReport.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         btnAddWithdrawalReport.setText("ADD WITHDRAWAL REPORT");
+        btnAddWithdrawalReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddWithdrawalReportActionPerformed(evt);
+            }
+        });
 
         btnAddReceivingReport.setBackground(new java.awt.Color(204, 204, 204));
         btnAddReceivingReport.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
@@ -89,8 +97,19 @@ public class Warehouse_Account extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        jLabel3.setText("Log-out");
+        lblLogOut.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        lblLogOut.setText("Log-out");
+        lblLogOut.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblLogOutMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblLogOutMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblLogOutMouseExited(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -122,7 +141,7 @@ public class Warehouse_Account extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(126, 126, 126)
-                .addComponent(jLabel3)
+                .addComponent(lblLogOut)
                 .addGap(40, 40, 40))
         );
         jPanel1Layout.setVerticalGroup(
@@ -131,7 +150,7 @@ public class Warehouse_Account extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jLabel3))
+                    .addComponent(lblLogOut))
                 .addGap(52, 52, 52)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -187,8 +206,40 @@ public class Warehouse_Account extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAddReturnReportActionPerformed
 
     private void btnViewReceivingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewReceivingActionPerformed
-        
+        SwingUtilities.invokeLater(() -> {
+            new ShowReceivingReport(this).setVisible(true);
+        });
     }//GEN-LAST:event_btnViewReceivingActionPerformed
+
+    private void lblLogOutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLogOutMouseClicked
+        SwingUtilities.invokeLater(() -> {
+           int confirmation = JOptionPane.showConfirmDialog(null, "Are you sure you want to Logout?", "LOG-OUT CONFIRM", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+           if(confirmation == 0) {
+               ConstantHandlers.ConstantHandler.user = null;
+               dispose();
+               new Login().setVisible(true);
+           } 
+        });
+    }//GEN-LAST:event_lblLogOutMouseClicked
+
+    private void lblLogOutMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLogOutMouseEntered
+        SwingUtilities.invokeLater(() -> {
+            lblLogOut.setFont(new Font("Times New Roman", 1, 14));
+        });
+    }//GEN-LAST:event_lblLogOutMouseEntered
+
+    private void lblLogOutMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLogOutMouseExited
+        SwingUtilities.invokeLater(() -> {
+            lblLogOut.setFont(new Font("Times New Roman", 0, 16));
+        });
+    }//GEN-LAST:event_lblLogOutMouseExited
+
+    private void btnAddWithdrawalReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddWithdrawalReportActionPerformed
+        SwingUtilities.invokeLater(() -> {
+            dispose();
+            new AddWithdrawal(this).setVisible(true);
+        });
+    }//GEN-LAST:event_btnAddWithdrawalReportActionPerformed
 
     /**
      * @param args the command line arguments
@@ -234,9 +285,9 @@ public class Warehouse_Account extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblLogOut;
     // End of variables declaration//GEN-END:variables
 }

@@ -2,6 +2,7 @@
 package Entities;
 
 import Entities.Purchases.PurchaseOrder;
+import Entities.Purchases.WithdrawalReport;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -63,6 +64,9 @@ public class User implements Serializable {
     
     @OneToMany(mappedBy = "updatedBy", cascade = CascadeType.ALL)
     private Set<PurchaseOrder> updatedPO = new HashSet<>();
+    
+    @OneToMany(mappedBy = "requestedBy", cascade = CascadeType.ALL)
+    private Set<WithdrawalReport> withdrawalReports = new HashSet<>();
     
     public User() {}
     
@@ -175,5 +179,17 @@ public class User implements Serializable {
     
     public void addUpdatedPO(PurchaseOrder purchaseOrder) {
         this.updatedPO.add(purchaseOrder);
+    }
+
+    public Set<WithdrawalReport> getWithdrawalReports() {
+        return withdrawalReports;
+    }
+
+    public void setWithdrawalReports(Set<WithdrawalReport> withdrawalReports) {
+        this.withdrawalReports = withdrawalReports;
+    }
+    
+    public void addWithdrawalReport(WithdrawalReport withdrawalReport) {
+        this.withdrawalReports.add(withdrawalReport);
     }
 }

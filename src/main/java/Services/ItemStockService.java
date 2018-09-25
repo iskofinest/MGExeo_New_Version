@@ -87,5 +87,21 @@ public class ItemStockService {
         return new ArrayList<>();
         
     }
+
+    public static boolean update(ItemStock itemStock) {
+        Session session = Utilities.HibernateUtil.getSessionFactory().openSession();
+        try{
+            Transaction tx = session.beginTransaction();
+            session.update(itemStock);
+            tx.commit();
+        } catch(Exception e) {
+            System.out.println(e.toString());
+            JOptionPane.showMessageDialog(null, e.toString(), "ERROR OCCURED", 0);
+            return false;
+        } finally {
+            session.close();
+        }
+        return true;
+    }
     
 }

@@ -34,6 +34,12 @@ public class ShowReceivingReport extends javax.swing.JFrame {
         this.frame = frame;
         initializeData();
     }
+    ShowReceivingReport(Frame frame) {
+        initComponents();
+//        this.receivingReport = receivingReport;
+        this.frame = frame;
+        initializeData();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -446,7 +452,7 @@ public class ShowReceivingReport extends javax.swing.JFrame {
                 .addGap(0, 48, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 500, Short.MAX_VALUE))
         );
 
         jLabel16.setFont(new java.awt.Font("Arial Black", 0, 24)); // NOI18N

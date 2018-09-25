@@ -1,24 +1,37 @@
 
 package Forms.WarehouseAdmin;
 
+import ConstantHandlers.ConstantHandler;
 import Entities.ItemStock;
 import Entities.Project;
+import Entities.Purchases.ItemRequest;
+import Entities.Purchases.WithdrawalReport;
+import Entities.User;
+import Services.ItemRequestService;
 import Services.ItemStockService;
 import Services.ProjectService;
+import Services.UserService;
+import Services.WithdrawalReportService;
 import java.awt.Frame;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 public class AddWithdrawal extends javax.swing.JFrame {
 
-    Frame frame;
+    Frame previousFrame;
     List<ItemStock> itemStocks;
     List<Project> projects;
+    List<User> users;
     
     Vector<Vector> stockData;
     Vector<String> stockColumns;
@@ -26,8 +39,17 @@ public class AddWithdrawal extends javax.swing.JFrame {
     Vector<Vector> withdrawalData;
     Vector<String> withdrawalColumns;
     
+    List<Integer> withdrawPosition = new ArrayList<>();
+    BigDecimal totalAmount = new BigDecimal(0);
+    
     public AddWithdrawal() {
         initComponents();
+        initializeData();
+    }
+
+    public AddWithdrawal(Frame previousFrame) {
+        initComponents();
+        this.previousFrame = previousFrame;
         initializeData();
     }
 
@@ -56,26 +78,18 @@ public class AddWithdrawal extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         txtContainerNo = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
-        jTextField3 = new javax.swing.JTextField();
-        jLabel13 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
-        jLabel15 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tblStocks = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        tblWithdraw = new javax.swing.JTable();
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
+        btnSave = new javax.swing.JButton();
+        btnBack = new javax.swing.JButton();
+        txtTotalAmount = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        cbxRequestedBy = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBounds(new java.awt.Rectangle(0, 0, 1936, 1038));
@@ -157,10 +171,20 @@ public class AddWithdrawal extends javax.swing.JFrame {
         jLabel7.setText("LOADED ON TRUCK NO:  ");
 
         cbxProjectCode.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        cbxProjectCode.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxProjectCodeActionPerformed(evt);
+            }
+        });
 
         txtLocation.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
 
         cbxProjectName.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        cbxProjectName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxProjectNameActionPerformed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -204,7 +228,7 @@ public class AddWithdrawal extends javax.swing.JFrame {
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel7))
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                .addGap(0, 3, Short.MAX_VALUE))
                             .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -248,110 +272,7 @@ public class AddWithdrawal extends javax.swing.JFrame {
                 .addGap(0, 0, 0))
         );
 
-        jPanel5.setBackground(new java.awt.Color(102, 153, 255));
-
-        jTextField3.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-
-        jLabel13.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel13.setText("Unit:  ");
-
-        jTextField2.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-
-        jTextField4.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-
-        jTextField1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-
-        jLabel12.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel12.setText("Quantity:  ");
-
-        jLabel10.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel10.setText("Description:  ");
-
-        jLabel11.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel11.setText("Item Code:  ");
-
-        jLabel14.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel14.setText("Unit Price:  ");
-
-        jTextField5.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-
-        jLabel15.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel15.setText("Total Cost:  ");
-
-        jTextField6.setEditable(false);
-        jTextField6.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-
-        jButton1.setText("ADD ITEM");
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addGap(0, 0, 0)
-                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel11))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
-                            .addComponent(jTextField2)
-                            .addComponent(jTextField3)
-                            .addComponent(jTextField4)
-                            .addComponent(jTextField5)
-                            .addComponent(jTextField6))))
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel11)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel12)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(7, 7, 7)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel14)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel15)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(12, 12, 12)
-                .addComponent(jButton1)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblStocks.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -367,23 +288,28 @@ public class AddWithdrawal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable2);
-        if (jTable2.getColumnModel().getColumnCount() > 0) {
-            jTable2.getColumnModel().getColumn(0).setResizable(false);
-            jTable2.getColumnModel().getColumn(0).setPreferredWidth(30);
-            jTable2.getColumnModel().getColumn(1).setResizable(false);
-            jTable2.getColumnModel().getColumn(1).setPreferredWidth(200);
-            jTable2.getColumnModel().getColumn(2).setResizable(false);
-            jTable2.getColumnModel().getColumn(2).setPreferredWidth(20);
-            jTable2.getColumnModel().getColumn(3).setResizable(false);
-            jTable2.getColumnModel().getColumn(3).setPreferredWidth(20);
-            jTable2.getColumnModel().getColumn(4).setResizable(false);
-            jTable2.getColumnModel().getColumn(4).setPreferredWidth(30);
-            jTable2.getColumnModel().getColumn(5).setResizable(false);
-            jTable2.getColumnModel().getColumn(5).setPreferredWidth(30);
+        tblStocks.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblStocksMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tblStocks);
+        if (tblStocks.getColumnModel().getColumnCount() > 0) {
+            tblStocks.getColumnModel().getColumn(0).setResizable(false);
+            tblStocks.getColumnModel().getColumn(0).setPreferredWidth(30);
+            tblStocks.getColumnModel().getColumn(1).setResizable(false);
+            tblStocks.getColumnModel().getColumn(1).setPreferredWidth(200);
+            tblStocks.getColumnModel().getColumn(2).setResizable(false);
+            tblStocks.getColumnModel().getColumn(2).setPreferredWidth(20);
+            tblStocks.getColumnModel().getColumn(3).setResizable(false);
+            tblStocks.getColumnModel().getColumn(3).setPreferredWidth(20);
+            tblStocks.getColumnModel().getColumn(4).setResizable(false);
+            tblStocks.getColumnModel().getColumn(4).setPreferredWidth(30);
+            tblStocks.getColumnModel().getColumn(5).setResizable(false);
+            tblStocks.getColumnModel().getColumn(5).setPreferredWidth(30);
         }
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        tblWithdraw.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -399,21 +325,26 @@ public class AddWithdrawal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane3.setViewportView(jTable3);
-        if (jTable3.getColumnModel().getColumnCount() > 0) {
-            jTable3.getColumnModel().getColumn(0).setResizable(false);
-            jTable3.getColumnModel().getColumn(0).setPreferredWidth(30);
-            jTable3.getColumnModel().getColumn(1).setResizable(false);
-            jTable3.getColumnModel().getColumn(1).setPreferredWidth(200);
-            jTable3.getColumnModel().getColumn(2).setResizable(false);
-            jTable3.getColumnModel().getColumn(2).setPreferredWidth(20);
-            jTable3.getColumnModel().getColumn(3).setResizable(false);
-            jTable3.getColumnModel().getColumn(3).setPreferredWidth(20);
-            jTable3.getColumnModel().getColumn(4).setResizable(false);
-            jTable3.getColumnModel().getColumn(4).setPreferredWidth(30);
-            jTable3.getColumnModel().getColumn(5).setResizable(false);
-            jTable3.getColumnModel().getColumn(5).setPreferredWidth(30);
-            jTable3.getColumnModel().getColumn(6).setResizable(false);
+        tblWithdraw.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblWithdrawMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(tblWithdraw);
+        if (tblWithdraw.getColumnModel().getColumnCount() > 0) {
+            tblWithdraw.getColumnModel().getColumn(0).setResizable(false);
+            tblWithdraw.getColumnModel().getColumn(0).setPreferredWidth(30);
+            tblWithdraw.getColumnModel().getColumn(1).setResizable(false);
+            tblWithdraw.getColumnModel().getColumn(1).setPreferredWidth(200);
+            tblWithdraw.getColumnModel().getColumn(2).setResizable(false);
+            tblWithdraw.getColumnModel().getColumn(2).setPreferredWidth(20);
+            tblWithdraw.getColumnModel().getColumn(3).setResizable(false);
+            tblWithdraw.getColumnModel().getColumn(3).setPreferredWidth(20);
+            tblWithdraw.getColumnModel().getColumn(4).setResizable(false);
+            tblWithdraw.getColumnModel().getColumn(4).setPreferredWidth(30);
+            tblWithdraw.getColumnModel().getColumn(5).setResizable(false);
+            tblWithdraw.getColumnModel().getColumn(5).setPreferredWidth(30);
+            tblWithdraw.getColumnModel().getColumn(6).setResizable(false);
         }
 
         jLabel16.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
@@ -424,6 +355,33 @@ public class AddWithdrawal extends javax.swing.JFrame {
         jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel17.setText("WITHDRAWAL ITEM");
 
+        btnSave.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        btnSave.setText("SAVE");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
+
+        btnBack.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        btnBack.setText("BACK");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
+
+        txtTotalAmount.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        txtTotalAmount.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        jLabel10.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        jLabel10.setText("TOTAL AMOUNT:  ");
+
+        jLabel11.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel11.setText("REQUESTED BY:  ");
+
+        cbxRequestedBy.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -433,26 +391,46 @@ public class AddWithdrawal extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(897, 897, 897))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(766, 766, 766))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbxRequestedBy, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(400, 400, 400))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 808, Short.MAX_VALUE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 808, Short.MAX_VALUE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(703, 703, 703)
+                                .addComponent(btnSave)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 1060, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap())))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(btnBack)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 1060, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addComponent(jLabel10)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtTotalAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addContainerGap())))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbxRequestedBy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
@@ -461,9 +439,15 @@ public class AddWithdrawal extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(125, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtTotalAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10))
+                .addGap(56, 56, 56)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSave)
+                    .addComponent(btnBack))
+                .addContainerGap(238, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -502,6 +486,177 @@ public class AddWithdrawal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void tblStocksMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblStocksMouseClicked
+        SwingUtilities.invokeLater(() -> {
+            if(evt.getClickCount()>1) {
+                JTable source = (JTable)evt.getSource();
+                int row = source.rowAtPoint( evt.getPoint());
+//                int confirmation = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this row?", "DELETE CREATED ROW?", JOptionPane.OK_CANCEL_OPTION, 3);
+                String input = JOptionPane.showInputDialog(null, "Enter quantity to add: ", "INPUT QUANTITY", JOptionPane.QUESTION_MESSAGE);
+                int quantity = 0;
+                try {
+                    quantity = Integer.parseInt(input);
+                    int stockQuantity = Integer.parseInt(tblStocks.getValueAt(row, 2).toString());
+                    if(quantity > stockQuantity) {
+                        JOptionPane.showMessageDialog(null, "Stock quantity not enough!", "INVALID QUANTITY", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        tblStocks.setValueAt(stockQuantity-quantity, row, 2);
+                        ItemStock itemStock = itemStocks.get(row);
+                        Vector<String> withdrawalRow = new Vector<>();
+                        BigDecimal unitPrice = itemStock.getUnitPrice();
+                        BigDecimal totalCost = unitPrice.multiply(new BigDecimal(quantity));
+                        totalAmount = totalAmount.add(totalCost);
+                        txtTotalAmount.setText(totalAmount.toString());
+                        withdrawalRow.add(itemStock.getItemCode());
+                        withdrawalRow.add(itemStock.getDescription());
+                        withdrawalRow.add(quantity + "");
+                        withdrawalRow.add(itemStock.getUnit());
+                        withdrawalRow.add(unitPrice.toString());
+                        withdrawalRow.add(itemStock.getCurrency());
+                        withdrawalRow.add(totalCost.toString());
+                        withdrawalData.add(withdrawalRow);
+                        ((DefaultTableModel)tblWithdraw.getModel()).setDataVector(withdrawalData, withdrawalColumns);
+                        if (tblWithdraw.getColumnModel().getColumnCount() > 0) {
+                            tblWithdraw.getColumnModel().getColumn(0).setResizable(false);
+                            tblWithdraw.getColumnModel().getColumn(0).setPreferredWidth(30);
+                            tblWithdraw.getColumnModel().getColumn(1).setResizable(false);
+                            tblWithdraw.getColumnModel().getColumn(1).setPreferredWidth(200);
+                            tblWithdraw.getColumnModel().getColumn(2).setResizable(false);
+                            tblWithdraw.getColumnModel().getColumn(2).setPreferredWidth(20);
+                            tblWithdraw.getColumnModel().getColumn(3).setResizable(false);
+                            tblWithdraw.getColumnModel().getColumn(3).setPreferredWidth(20);
+                            tblWithdraw.getColumnModel().getColumn(4).setResizable(false);
+                            tblWithdraw.getColumnModel().getColumn(4).setPreferredWidth(30);
+                            tblWithdraw.getColumnModel().getColumn(5).setResizable(false);
+                            tblWithdraw.getColumnModel().getColumn(5).setPreferredWidth(30);
+                            tblWithdraw.getColumnModel().getColumn(6).setResizable(false);
+                            withdrawPosition.add(row);
+                        }
+                    }
+                    
+                } catch(Exception e) {
+                    JOptionPane.showMessageDialog(null, "Invalid Input", "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+    }//GEN-LAST:event_tblStocksMouseClicked
+
+    private void tblWithdrawMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblWithdrawMouseClicked
+        SwingUtilities.invokeLater(() -> {
+            if(evt.getClickCount()>1) {
+                int confirmation = JOptionPane.showConfirmDialog(null, "Remove this row from withdrawal?", "CONFIRM REMOVE", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if(confirmation == 0) {
+                    JTable source = (JTable)evt.getSource();
+                    int row = source.rowAtPoint( evt.getPoint());
+                    int stockRow = withdrawPosition.remove(row);
+                    int withdrawQuantity = Integer.parseInt(String.valueOf(((DefaultTableModel)tblWithdraw.getModel()).getValueAt(row, 2).toString()));
+                    BigDecimal cost = BigDecimal.valueOf(Double.parseDouble(((DefaultTableModel) tblWithdraw.getModel()).getValueAt(row, 6).toString()));
+                    totalAmount = totalAmount.subtract(cost);
+                    txtTotalAmount.setText(totalAmount.toString());
+                    int stockQuantity = Integer.parseInt(String.valueOf(((DefaultTableModel)tblStocks.getModel()).getValueAt(stockRow, 2).toString()));
+//                    ((DefaultTableModel)tblWithdraw.getModel()).getDataVector().remove(row);
+//                    Vector withdrawRow = ((DefaultTableModel)tblWithdraw.getModel()).getDataVector();
+                    withdrawalData.remove(row);
+                    ((DefaultTableModel)tblWithdraw.getModel()).setDataVector(withdrawalData, withdrawalColumns);
+                    tblStocks.getModel().setValueAt(withdrawQuantity + stockQuantity, stockRow, 2);
+                    if (tblWithdraw.getColumnModel().getColumnCount() > 0) {
+                        tblWithdraw.getColumnModel().getColumn(0).setResizable(false);
+                        tblWithdraw.getColumnModel().getColumn(0).setPreferredWidth(30);
+                        tblWithdraw.getColumnModel().getColumn(1).setResizable(false);
+                        tblWithdraw.getColumnModel().getColumn(1).setPreferredWidth(200);
+                        tblWithdraw.getColumnModel().getColumn(2).setResizable(false);
+                        tblWithdraw.getColumnModel().getColumn(2).setPreferredWidth(20);
+                        tblWithdraw.getColumnModel().getColumn(3).setResizable(false);
+                        tblWithdraw.getColumnModel().getColumn(3).setPreferredWidth(20);
+                        tblWithdraw.getColumnModel().getColumn(4).setResizable(false);
+                        tblWithdraw.getColumnModel().getColumn(4).setPreferredWidth(30);
+                        tblWithdraw.getColumnModel().getColumn(5).setResizable(false);
+                        tblWithdraw.getColumnModel().getColumn(5).setPreferredWidth(30);
+                        tblWithdraw.getColumnModel().getColumn(6).setResizable(false);
+                        withdrawPosition.add(row);
+                    }
+                    
+                }
+                
+            }
+        });
+    }//GEN-LAST:event_tblWithdrawMouseClicked
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        SwingUtilities.invokeLater(() -> {
+            dispose();
+            this.previousFrame.setVisible(true);
+        });
+    }//GEN-LAST:event_btnBackActionPerformed
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        if(txtWithdrawalNo.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(null, "Please enter unique withdrawal No", "NO WITHDRAWAL NUMBER", JOptionPane.ERROR_MESSAGE);
+        } else if(withdrawalData.size() < 1) {
+            JOptionPane.showMessageDialog(null, "NO WITHDRAWAL ITEMS DETECTED", "NO WITHDRAWAL ITEMS", JOptionPane.ERROR_MESSAGE);
+        } else {
+            int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to save this Withdrawal Report?", "CONFIRM SAVE", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if(confirm == 0) {
+                WithdrawalReport withdrawalReport = new WithdrawalReport();
+                withdrawalReport.setWithdrawalNo(txtWithdrawalNo.getText());
+                withdrawalReport.setWithdrawalDate(jdcDate.getDate());
+                withdrawalReport.setIssuingWarehouse(txtIssuingWarehouse.getText().trim());
+                withdrawalReport.setTruckNo(txtTruckNo.getText());
+                withdrawalReport.setContainerNo(txtContainerNo.getText());
+                withdrawalReport.setLocation(txtLocation.getText());
+                withdrawalReport.setTotalAmount(totalAmount);
+                withdrawalReport.setRequestedBy(users.get(cbxRequestedBy.getSelectedIndex()));
+                withdrawalReport.setProject(projects.get(cbxProjectCode.getSelectedIndex()));
+                withdrawalReport.setPreparedBy(ConstantHandler.user.getFirstName() + " " + ConstantHandler.user.getLastName());
+                if(WithdrawalReportService.save(withdrawalReport)) {
+                    System.err.println("WITHDRAWAL REPORT SUCCESSFULLY SAVED!!");
+                    withdrawalData.forEach(data -> {
+                        String itemCode = data.get(0).toString();
+                        String description = data.get(1).toString();
+                        int quantity = Integer.parseInt(data.get(2).toString());
+                        String unit = data.get(3).toString();
+                        BigDecimal unitPrice = BigDecimal.valueOf(Double.parseDouble(data.get(4).toString()));
+                        String currency = data.get(5).toString();
+                        ItemRequest itemRequest = new ItemRequest();
+                        itemRequest.setItemCode(itemCode);
+                        itemRequest.setDescription(description);
+                        itemRequest.setQuantity(quantity);
+                        itemRequest.setUnit(unit);
+                        itemRequest.setUnitPrice(unitPrice);
+                        itemRequest.setCurrency(currency);
+                        if(ItemRequestService.save(itemRequest)) {
+                            System.err.println("ITEM REQUEST SUCCESSFULLY SAVED!!");
+                        }
+                    });
+                    withdrawPosition.forEach(index -> {
+                        ItemStock itemStock = itemStocks.get(index);
+                        int quantity = Integer.parseInt(((DefaultTableModel)tblStocks.getModel()).getValueAt(index, 2).toString());
+                        itemStock.setQuantity(quantity);
+                        if(ItemStockService.update(itemStock)) {
+                            System.err.println("ITEM STOCK SUCCESSFULLY UPDATED!!");
+                        }
+                    });
+                }
+            }
+            
+        }
+        
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void cbxProjectNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxProjectNameActionPerformed
+        SwingUtilities.invokeLater(() -> {
+            int index = cbxProjectName.getSelectedIndex();
+            cbxProjectCode.setSelectedIndex(index);
+        });
+    }//GEN-LAST:event_cbxProjectNameActionPerformed
+
+    private void cbxProjectCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxProjectCodeActionPerformed
+        SwingUtilities.invokeLater(() -> {
+            int index = cbxProjectCode.getSelectedIndex();
+            cbxProjectName.setSelectedIndex(index);
+        });
+    }//GEN-LAST:event_cbxProjectCodeActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -538,16 +693,14 @@ public class AddWithdrawal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnSave;
     private javax.swing.JComboBox<String> cbxProjectCode;
     private javax.swing.JComboBox<String> cbxProjectName;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox<String> cbxRequestedBy;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
@@ -562,21 +715,15 @@ public class AddWithdrawal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
     private com.toedter.calendar.JDateChooser jdcDate;
+    private javax.swing.JTable tblStocks;
+    private javax.swing.JTable tblWithdraw;
     private javax.swing.JTextField txtContainerNo;
     private javax.swing.JTextField txtIssuingWarehouse;
     private javax.swing.JTextField txtLocation;
+    private javax.swing.JTextField txtTotalAmount;
     private javax.swing.JTextField txtTruckNo;
     private javax.swing.JTextField txtWithdrawalNo;
     // End of variables declaration//GEN-END:variables
@@ -584,11 +731,16 @@ public class AddWithdrawal extends javax.swing.JFrame {
     private void initializeData() {
         DefaultComboBoxModel projectCodeModel = new DefaultComboBoxModel();
         DefaultComboBoxModel projectNameModel = new DefaultComboBoxModel();
+        DefaultComboBoxModel requestedByModel = new DefaultComboBoxModel();
+        projects = ProjectService.findAll();
         projects.forEach(project -> {
             projectCodeModel.addElement(project.getProjectCode());
             projectNameModel.addElement(project.getProjectName());
         });
+        users = UserService.findAll();
+        users.forEach(user -> requestedByModel.addElement(user.getFirstName() + " " + user.getLastName()));
         stockData = new Vector<>();
+        withdrawalData = new Vector<>();
         stockColumns = new Vector<>();
         stockColumns.add("ITEM CODE");
         stockColumns.add("DESCRIPTION");
@@ -608,15 +760,45 @@ public class AddWithdrawal extends javax.swing.JFrame {
         itemStocks = ItemStockService.findAll();
         itemStocks.forEach(itemStock -> {
             Vector<String> stockRow = new Vector<>();
+            stockRow.add(itemStock.getItemCode());
+            stockRow.add(itemStock.getDescription());
+            stockRow.add(itemStock.getQuantity() + "");
+            stockRow.add(itemStock.getUnit());
+            stockRow.add(itemStock.getUnitPrice().toString());
+            stockRow.add(itemStock.getCurrency());
+            stockData.add(stockRow);
         });
-        projects = ProjectService.findAll();
+        DefaultTableModel stockModel = new DefaultTableModel(stockData, stockColumns) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        };
+        tblStocks.setModel(stockModel);
+        if (tblStocks.getColumnModel().getColumnCount() > 0) {
+            tblStocks.getColumnModel().getColumn(0).setResizable(false);
+            tblStocks.getColumnModel().getColumn(0).setPreferredWidth(30);
+            tblStocks.getColumnModel().getColumn(1).setResizable(false);
+            tblStocks.getColumnModel().getColumn(1).setPreferredWidth(200);
+            tblStocks.getColumnModel().getColumn(2).setResizable(false);
+            tblStocks.getColumnModel().getColumn(2).setPreferredWidth(20);
+            tblStocks.getColumnModel().getColumn(3).setResizable(false);
+            tblStocks.getColumnModel().getColumn(3).setPreferredWidth(20);
+            tblStocks.getColumnModel().getColumn(4).setResizable(false);
+            tblStocks.getColumnModel().getColumn(4).setPreferredWidth(30);
+            tblStocks.getColumnModel().getColumn(5).setResizable(false);
+            tblStocks.getColumnModel().getColumn(5).setPreferredWidth(30);
+        }
         SwingUtilities.invokeLater(() -> {
             jdcDate.setDate(new Date());
             AutoCompleteDecorator.decorate(cbxProjectCode);
             AutoCompleteDecorator.decorate(cbxProjectName);
+            AutoCompleteDecorator.decorate(cbxRequestedBy);
             cbxProjectCode.setModel(projectCodeModel);
             cbxProjectName.setModel(projectNameModel);
-            
+            cbxRequestedBy.setModel(requestedByModel);
         });
     }
 }

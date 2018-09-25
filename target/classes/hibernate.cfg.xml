@@ -70,6 +70,8 @@ Contributor(s):
     <mapping class="Entities.Purchases.ItemOrder"/>
     <mapping class="Entities.Purchases.ItemDelivery"/>
     <mapping class="Entities.Purchases.ReceivingReport"/>
+    <mapping class="Entities.Purchases.WithdrawalReport"/>
+    <mapping class="Entities.Purchases.ItemRequest"/>
     
 <!--    <mapping class="Entities.Project"/>
     <mapping class="Entities.Request"/>

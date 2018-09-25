@@ -82,6 +82,14 @@ public class UserService {
         return updated;
     }
 
+    public static List<User> findAll() {
+        String hql = "from User";
+        Session session = Utilities.HibernateUtil.getSessionFactory().openSession();
+        List list = session.createQuery(hql).list();
+        session.close();
+        return list; 
+    }
+
     
     
 }

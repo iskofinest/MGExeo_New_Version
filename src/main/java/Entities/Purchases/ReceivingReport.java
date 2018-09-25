@@ -24,7 +24,7 @@ public class ReceivingReport {
     
     private int id;
     private String rrNo;
-    BigDecimal totalAmount;
+    private BigDecimal totalAmount;
     private Date deliverDate;
     private String receivingWarehouse;
     private String preparedBy;

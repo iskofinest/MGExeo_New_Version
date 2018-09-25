@@ -28,8 +28,8 @@ public class MMD_Account extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
         btnViewPo = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnAddPo = new javax.swing.JButton();
+        btnViewStocks = new javax.swing.JButton();
         lblLogout = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -55,21 +55,21 @@ public class MMD_Account extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(204, 204, 204));
-        jButton2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jButton2.setText("Add Purchase Order");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnAddPo.setBackground(new java.awt.Color(204, 204, 204));
+        btnAddPo.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        btnAddPo.setText("Add Purchase Order");
+        btnAddPo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnAddPoActionPerformed(evt);
             }
         });
 
-        jButton4.setBackground(new java.awt.Color(204, 204, 204));
-        jButton4.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jButton4.setText("View Stocks");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btnViewStocks.setBackground(new java.awt.Color(204, 204, 204));
+        btnViewStocks.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        btnViewStocks.setText("View Stocks");
+        btnViewStocks.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btnViewStocksActionPerformed(evt);
             }
         });
 
@@ -109,11 +109,11 @@ public class MMD_Account extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(lblLogout)
                         .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAddPo, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(btnViewPo, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(btnViewStocks, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -134,9 +134,9 @@ public class MMD_Account extends javax.swing.JFrame {
                         .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(87, 87, 87)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnViewStocks, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnViewPo, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAddPo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(52, Short.MAX_VALUE))
         );
 
@@ -154,14 +154,14 @@ public class MMD_Account extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnAddPoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddPoActionPerformed
         // TODO add your handling code here:
         SwingUtilities.invokeLater(() -> {
             AddPurchaseOrder addPurchaseOrder = new AddPurchaseOrder(this);
             addPurchaseOrder.setVisible(true);
             dispose();
         });
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnAddPoActionPerformed
 
     private void btnViewPoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewPoActionPerformed
         SwingUtilities.invokeLater(() -> {
@@ -171,13 +171,13 @@ public class MMD_Account extends javax.swing.JFrame {
         });
     }//GEN-LAST:event_btnViewPoActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void btnViewStocksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewStocksActionPerformed
         // TODO add your handling code here:
         SwingUtilities.invokeLater(() -> {
             dispose();
             new ShowItemStock(this).setVisible(true);
         });
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_btnViewStocksActionPerformed
 
     private void lblLogoutMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLogoutMouseEntered
         // TODO add your handling code here:
@@ -241,9 +241,9 @@ public class MMD_Account extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddPo;
     private javax.swing.JButton btnViewPo;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton btnViewStocks;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;

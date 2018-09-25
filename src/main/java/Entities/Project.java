@@ -2,6 +2,7 @@
 package Entities;
 
 import Entities.Purchases.PurchaseOrder;
+import Entities.Purchases.WithdrawalReport;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -35,6 +36,7 @@ public class Project implements Serializable {
     
     private Department department;
     private Set<PurchaseOrder> purchaseOrders = new HashSet<>();
+    private Set<WithdrawalReport> withdrawalReports = new HashSet<>();
     
     public Project(){}
 
@@ -146,6 +148,19 @@ public class Project implements Serializable {
     
     public void addPurchaseOrder(PurchaseOrder purchaseOrder) {
         this.purchaseOrders.add(purchaseOrder);
+    }
+
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    public Set<WithdrawalReport> getWithdrawalReports() {
+        return withdrawalReports;
+    }
+
+    public void setWithdrawalReports(Set<WithdrawalReport> withdrawalReports) {
+        this.withdrawalReports = withdrawalReports;
+    }
+    
+    public void addWithdrawalReport(WithdrawalReport withdrawalReport) {
+        this.withdrawalReports.add(withdrawalReport);
     }
     
 }
