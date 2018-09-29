@@ -143,6 +143,11 @@ public class WithdrawalReport {
     public void setProject(Project project) {
         this.project = project;
     }
+
+    @Override
+    public String toString() {
+        return "WithdrawalReport{" + "id=" + id + ", withdrawalNo=" + withdrawalNo + ", withdrawalDate=" + withdrawalDate + ", issuingWarehouse=" + issuingWarehouse + ", truckNo=" + truckNo + ", containerNo=" + containerNo + ", location=" + location + ", totalAmount=" + totalAmount + ", preparedBy=" + preparedBy + ", itemRequests=" + itemRequests + ", requestedBy=" + requestedBy + ", project=" + project + '}';
+    }
     
     
     

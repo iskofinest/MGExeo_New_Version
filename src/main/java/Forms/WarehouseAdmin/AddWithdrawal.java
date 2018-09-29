@@ -23,7 +23,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumnModel;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 public class AddWithdrawal extends javax.swing.JFrame {
@@ -288,6 +287,7 @@ public class AddWithdrawal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblStocks.setToolTipText("Double click row to add in Withdrawal Items");
         tblStocks.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblStocksMouseClicked(evt);
@@ -325,6 +325,7 @@ public class AddWithdrawal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblWithdraw.setToolTipText("Double click row to return back item");
         tblWithdraw.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblWithdrawMouseClicked(evt);
@@ -618,6 +619,7 @@ public class AddWithdrawal extends javax.swing.JFrame {
                         BigDecimal unitPrice = BigDecimal.valueOf(Double.parseDouble(data.get(4).toString()));
                         String currency = data.get(5).toString();
                         ItemRequest itemRequest = new ItemRequest();
+                        itemRequest.setWithdrawalReport(withdrawalReport);
                         itemRequest.setItemCode(itemCode);
                         itemRequest.setDescription(description);
                         itemRequest.setQuantity(quantity);
@@ -774,8 +776,8 @@ public class AddWithdrawal extends javax.swing.JFrame {
             };
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
-            }
-        };
+            } 
+       };
         tblStocks.setModel(stockModel);
         if (tblStocks.getColumnModel().getColumnCount() > 0) {
             tblStocks.getColumnModel().getColumn(0).setResizable(false);

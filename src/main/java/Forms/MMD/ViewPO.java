@@ -75,7 +75,6 @@ public class ViewPO extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setExtendedState(6);
         setMinimumSize(new java.awt.Dimension(1936, 1038));
-        setPreferredSize(new java.awt.Dimension(1936, 1038));
         setSize(new java.awt.Dimension(1936, 1038));
 
         jPanel1.setBackground(new java.awt.Color(102, 153, 255));
@@ -315,7 +314,6 @@ public class ViewPO extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAllActionPerformed
-        // TODO add your handling code here:
         SwingUtilities.invokeLater(() -> {
             enableFields(!btnAll.isSelected());
             if(btnAll.isSelected()) {

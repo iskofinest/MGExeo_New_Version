@@ -6,6 +6,7 @@ import ConstantHandlers.ConstantHandler;
 import ConstantHandlers.PublicMethods;
 import Entities.User;
 import Panels.CreateAccountPanel;
+import Services.JSONService;
 import Services.UserService;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
@@ -106,7 +107,6 @@ public class Login extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, ConstantHandler.getWelcomeMessage(), ConstantHandler.WELCOME_TITLE, JOptionPane.INFORMATION_MESSAGE);
                     dispose();
                     switch(user.getAuthority().toUpperCase()) {
-                        
                         case "MMD":
                             new MMD_Account().setVisible(true);
                             break;
@@ -164,6 +164,7 @@ public class Login extends javax.swing.JFrame {
         txtUserId = new javax.swing.JTextField();
         lblCreateAccount = new javax.swing.JLabel();
         txtPassword = new javax.swing.JPasswordField();
+        btnDB = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("LOGIN");
@@ -198,7 +199,7 @@ public class Login extends javax.swing.JFrame {
         jLabel4.setText("Log-in As :");
 
         cbxAuthority.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        cbxAuthority.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "REQUISITIONER", "MMD", "WAREHOUSE ADMIN" }));
+        cbxAuthority.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MMD", "WAREHOUSE ADMIN" }));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("User ID :");
@@ -217,6 +218,13 @@ public class Login extends javax.swing.JFrame {
         });
 
         txtPassword.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        btnDB.setText("DB Settings");
+        btnDB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDBActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -252,13 +260,17 @@ public class Login extends javax.swing.JFrame {
                         .addGap(31, 31, 31))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel5)
-                        .addGap(222, 222, 222))))
+                        .addGap(131, 131, 131)
+                        .addComponent(btnDB)
+                        .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel5)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(btnDB))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(63, 63, 63)
@@ -280,7 +292,7 @@ public class Login extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addComponent(lblCreateAccount)
                 .addContainerGap())
         );
@@ -326,6 +338,12 @@ public class Login extends javax.swing.JFrame {
             });
         }
     }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void btnDBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDBActionPerformed
+        SwingUtilities.invokeLater(() -> {
+            JSONService.setJSONFile();
+        });
+    }//GEN-LAST:event_btnDBActionPerformed
     
     // </editor-fold> 
     /**
@@ -366,6 +384,7 @@ public class Login extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnDB;
     private javax.swing.JButton btnLogin;
     private javax.swing.JComboBox<String> cbxAuthority;
     private javax.swing.JButton jButton1;

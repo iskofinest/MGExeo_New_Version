@@ -93,6 +93,11 @@ public class ItemRequest {
     public void setWithdrawalReport(WithdrawalReport withdrawalReport) {
         this.withdrawalReport = withdrawalReport;
     }
+
+    @Override
+    public String toString() {
+        return "ItemRequest{" + "id=" + id + ", itemCode=" + itemCode + ", description=" + description + ", quantity=" + quantity + ", unit=" + unit + ", unitPrice=" + unitPrice + ", currency=" + currency + ", withdrawalReport=" + withdrawalReport + '}';
+    }
     
     
     

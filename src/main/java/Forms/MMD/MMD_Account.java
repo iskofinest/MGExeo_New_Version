@@ -2,7 +2,6 @@ package Forms.MMD;
 
 import Forms.Login;
 import Forms.ShowItemStock;
-import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -35,6 +34,7 @@ public class MMD_Account extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBounds(new java.awt.Rectangle(636, 286, 660, 405));
 
+        jPanel1.setBackground(new java.awt.Color(153, 204, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createMatteBorder(5, 5, 5, 5, new java.awt.Color(0, 0, 0)));
 
         jLabel1.setFont(new java.awt.Font("Vani", 1, 18)); // NOI18N
@@ -44,7 +44,7 @@ public class MMD_Account extends javax.swing.JFrame {
         jLabel4.setText("Integrated Inventory System");
 
         jLabel5.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        jLabel5.setText("Absolute Solutions for you Business needs");
+        jLabel5.setText("Manages You Inventory for your Company's Convenience");
 
         btnViewPo.setBackground(new java.awt.Color(204, 204, 204));
         btnViewPo.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N

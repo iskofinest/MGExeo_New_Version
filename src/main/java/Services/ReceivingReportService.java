@@ -31,7 +31,7 @@ public class ReceivingReportService {
 
     public static List<ReceivingReport> findAll() {
         Session session = Utilities.HibernateUtil.getSessionFactory().openSession();
-        List list = session.createQuery("from ReceivingReport order by deliverDate").list();
+        List list = session.createQuery("from ReceivingReport order by withdrawalDate").list();
         session.close();
         return list; 
     }
